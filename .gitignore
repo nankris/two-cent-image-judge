@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+results/cache/
+data/**/*.png
+data/**/*.html
+*.gguf
+*.safetensors
+.env

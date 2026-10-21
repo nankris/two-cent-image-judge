@@ -1,0 +1,80 @@
+{
+ "H1 d1 - siglip-zs macro-F1 >= +10pt": {
+  "verdict": "PASS",
+  "n": 160,
+  "diff": [
+   0.1701261790232378,
+   0.09011118892895649,
+   0.24679712175818483
+  ]
+ },
+ "H2 ECE(qwen) - ECE(d1) > 0": {
+  "verdict": "PASS",
+  "n": 157,
+  "diff": [
+   0.1616499791396419,
+   0.07701243011317857,
+   0.22174510666471312
+  ]
+ },
+ "H3 d1 - siglip-probe macro-F1 > -5pt": {
+  "verdict": "FAIL",
+  "n": 160,
+  "diff": [
+   -0.12871488020885669,
+   -0.22121036458575,
+   -0.05540545776290224
+  ]
+ },
+ "H4 d1-omni - d1 macro-F1 > -10pt": {
+  "verdict": "FAIL",
+  "n": 160,
+  "diff": [
+   -0.5584793667804503,
+   -0.6192662072330662,
+   -0.47803323439225975
+  ]
+ },
+ "validity": {
+  "d1": {
+   "valid_core": 160,
+   "target_core": 160,
+   "historical_error_lines": 11,
+   "valid_share_of_core": 1.0
+  },
+  "d1-omni": {
+   "valid_core": 160,
+   "target_core": 160,
+   "historical_error_lines": 0,
+   "valid_share_of_core": 1.0
+  },
+  "qwen3-vl-2b": {
+   "valid_core": 157,
+   "target_core": 160,
+   "historical_error_lines": 3,
+   "valid_share_of_core": 0.98125
+  },
+  "siglip-zs": {
+   "valid_core": 160,
+   "target_core": 160,
+   "historical_error_lines": 0,
+   "valid_share_of_core": 1.0
+  },
+  "siglip-probe": {
+   "valid_core": 160,
+   "target_core": 160,
+   "historical_error_lines": 0,
+   "valid_share_of_core": 1.0
+  },
+  "dit-ft": {
+   "valid_core": 160,
+   "target_core": 160,
+   "historical_error_lines": 0,
+   "valid_share_of_core": 1.0
+  }
+ },
+ "sanity": {
+  "probe>=zs": true,
+  "dit acc>=0.80": true
+ }
+}
