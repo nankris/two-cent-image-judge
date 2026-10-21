@@ -51,8 +51,7 @@ From the repository root, after obtaining the named Hugging Face/Ollama models a
 
 ```bash
 OMP_NUM_THREADS=3 OPENBLAS_NUM_THREADS=3 MKL_NUM_THREADS=3 \
-  /workspace/tig-env/bin/python code/score.py
+  python code/score.py
 ```
 
 To rebuild model outputs from scratch, run `code/prep_data.py`, `code/run_torch_arms.py`, and the Ollama runner as documented in the source. The one-off `code/fix_label_order.py` is retained for old pre-fix JSONL only; new runs map labels correctly at write time.
-
