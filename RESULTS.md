@@ -43,7 +43,7 @@ The simple trained probe beats d1 by 12.9 macro-F1 points, and the in-domain fin
 - Qwen has three missing responses. Its 98.125% valid rate passes the preregistered threshold; comparisons use the 157 available pairs.
 - Shared-box CPU latency and derived VM cost are workload-contaminated estimates, not clean benchmarks.
 - Blank controls expose label priors and overconfidence, especially for Qwen and the probe.
-- The user declined paid baselines at 23:20 IST on 2026-10-21. Results are free-model-only; hosted prices in generated JSON are estimates, not measured paid runs.
+- I chose free models only at 23:20 IST on 2026-10-21, so no paid baseline was run. Results are free-model-only; hosted prices in generated JSON are estimates, not measured paid runs.
 
 ## Reproduce
 

@@ -1,8 +1,8 @@
 """Merge a returned Colab zip into the experiment folders as results/raw/colab/<model>__<tag>.jsonl.
-usage: /workspace/tig-env/bin/python merge_results.py returned/results_vision-clef_*.zip"""
-import sys, json, zipfile, collections
+usage: python merge_results.py returned/results_clef-flash-t4_*.zip  (set VISION_EXPERIMENTS_DIR to the folder holding the experiment folders)"""
+import os, sys, json, zipfile, collections
 from pathlib import Path
-X = Path("/workspace/experiments-vision-2026-10")
+X = Path(os.getenv("VISION_EXPERIMENTS_DIR", "."))
 DIRS = {"01": "01-two-cent-image-judge", "02": "02-pixel-flip", "03": "03-screenshot-gatekeeper", "04": "04-typographic-injection"}
 z = zipfile.ZipFile(sys.argv[1]); groups = collections.defaultdict(list)
 for n in z.namelist():

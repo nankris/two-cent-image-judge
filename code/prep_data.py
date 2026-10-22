@@ -1,12 +1,12 @@
 """Sample 40/class from the RVL-CDIP *test* split (chainyo/rvl-cdip parquet mirror), seed 20261021.
 Train/cal pool for probe + fine-tune: jordyvl/rvl_cdip_100_examples_per_class train (800) + validation (400).
 Writes data/test/*.png, data/train/*.png, data/cal/*.png and data/manifest.csv with sha256. Checks overlap."""
-import glob, io, hashlib, csv, sys
+import glob, io, hashlib, csv, sys, os
 from pathlib import Path
 import numpy as np, pyarrow.parquet as pq
 from PIL import Image
 sys.path.insert(0, str(Path(__file__).parent)); from labels import KEYS
-ROOT = Path(__file__).resolve().parents[1]; CACHE = ROOT.parent / "_data_cache/rvl"
+ROOT = Path(__file__).resolve().parents[1]; CACHE = Path(os.getenv("RVL_CACHE_DIR", ROOT.parent / "_data_cache/rvl"))
 OFFICIAL_KEYS = ["letter", "form", "email", "handwritten", "advertisement", "report", "publication", "specification",
                  "file_folder", "news_article", "budget", "invoice", "presentation", "questionnaire", "resume", "memo"]
 SEED, PER = 20261021, 40

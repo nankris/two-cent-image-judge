@@ -42,5 +42,5 @@ There are no malformed JSON lines, invalid predicted labels, incomplete/non-norm
 
 ## Remaining limitations
 
-The test is a small subset; macro-F1 intervals are wide. RVL-CDIP is an old scanned-document benchmark, not a deployment distribution. DiT was trained on the full RVL-CDIP training split and is a supervised in-domain ceiling. Latencies were measured on a heavily shared CPU box and are not clean model benchmarks. Blank controls reveal strong priors (especially Qwen and the probe) but have no true class, so “blank accuracy” is not meaningful. Paid baselines were declined at 23:20 IST; this is a free-model-only comparison.
+The test is a small subset; macro-F1 intervals are wide. RVL-CDIP is an old scanned-document benchmark, not a deployment distribution. DiT was trained on the full RVL-CDIP training split and is a supervised in-domain ceiling. Latencies were measured on a heavily shared CPU box and are not clean model benchmarks. Blank controls reveal strong priors (especially Qwen and the probe) but have no true class, so “blank accuracy” is not meaningful. I chose not to run paid baselines (decided 23:20 IST); this is a free-model-only comparison.
 

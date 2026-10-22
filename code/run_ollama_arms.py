@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT.parent / "_shared")); sys.path.insert(0, str(ROOT / "code"))
+sys.path.insert(0, str(ROOT / "_shared")); sys.path.insert(0, str(ROOT / "code"))
 import vdec
 from labels import QUESTION, STATE, KEYS
 ap = argparse.ArgumentParser(); ap.add_argument("arm"); ap.add_argument("--subset20", action="store_true"); ap.add_argument("--per-class", type=int, default=0)

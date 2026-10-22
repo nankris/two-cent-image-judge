@@ -1,7 +1,7 @@
 # The 2-Cent Image Judge — open image *decision models* vs a VLM vs SigLIP vs a fine-tuned ViT on real document scans
 
 Part of the *Tech in General* vision-decision series (Oct 2026). Everything runs on an 8-vCPU / 15 GB / no-GPU box,
-shared with other jobs. Paid APIs are wired in but **not called**. At 23:20 IST on 2026-10-21, the user declined paid baselines; this experiment is free-model-only.
+shared with other jobs. Paid APIs are wired in but **not called**. At 23:20 IST on 2026-10-21 I decided to run free models only, so no paid baseline was run.
 
 ## Pre-registration (written 2026-10-21 21:39 IST, before any test-set call)
 
@@ -24,9 +24,9 @@ All images are downscaled to max side **512 px** PNG before being sent to Ollama
 | siglip-zs | `google/siglip2-base-patch16-384` | zero-shot, prompt "a scanned document: {description}" | 640 |
 | siglip-probe | same encoder | L2-normalised image embedding -> multinomial logistic regression trained on the 800 train images (C picked on the 400 cal images) | 640 |
 | dit-ft | `microsoft/dit-base-finetuned-rvlcdip` | fine-tuned ViT (trained by Microsoft on the full RVL-CDIP train split) = supervised ceiling | 640 |
-Paid arms implemented in `../_shared/vdec.py` but hard-gated (`ALLOW_PAID_CALLS`): `openai/gpt-6-luna-decisions` (OpenRouter),
+Paid arms implemented in `_shared/vdec.py` but hard-gated (`ALLOW_PAID_CALLS`): `openai/gpt-6-luna-decisions` (OpenRouter),
 `@cf/cloudflare/clef-flash` (Workers AI), `typesafe/jev-1.14` (TypeSafe, header `TypeSafe-Danger-Zone-Images: true`).
-`clef-flash:9b` locally is 11 GB (Ollama) — does not fit next to the other jobs in 15 GB RAM -> Colab T4 notebook.
+`clef-flash:9b` locally is 11 GB (Ollama) — does not fit next to the other jobs in 15 GB RAM -> Colab T4 notebook (`colab/clef-flash-t4.ipynb`).
 
 **Metrics.** accuracy, macro-F1, top-label ECE (15 equal-width bins), multiclass Brier, reliability diagram, CPU latency
 p50/p95 (sequential, 4 threads, box shared — load average logged per call), $/1,000 images.
@@ -56,16 +56,16 @@ results is labelled post-hoc and run separately.
 
 ## Layout
 `code/` (prep, arms runner, scoring, figures) · `data/` (manifest + images) · `results/` (raw jsonl per arm, summary) ·
-`figures/` · `issues-found/` · `_agent_logs/`. Results: see `RESULTS.md` (written after the run).
+`figures/` · `issues-found/`. Results: see `RESULTS.md` (written after the run).
 
 ## Deviation log
 - **2026-10-21 21:58 IST (after 4 d1 test items, all advertisement; no metric looked at for decisions):** d1-3B runs at
   ~50 s/image on this shared CPU (vision encoder + 3B prefill on 3 threads, load average ~27), so 640 images would take
   ~9 h. d1 now runs the **320-image subset (first 20 per class by id) first**, the same subset qwen3-vl-2b uses; the
   other 320 run afterwards if time allows. If d1 is incomplete, H1/H3/H4 are evaluated on the 320 subset with *all*
-  arms restricted to the same items (stated in RESULTS). A Colab T4 notebook re-runs d1 (and clef-flash) on all 640.
-- **2026-10-21 22:10 IST (17 d1 items done, still no metric inspected):** d1 measured ~55 s/image, qwen3-vl-2b ~40 s/image under load. To give every experiment a matched core set overnight, CPU order is now: d1 and qwen3-vl-2b on **10 per class (160)** first, then 20 per class (320), then the rest. Primary comparisons use the largest set that all compared arms share; that n is stated next to every number. The Colab T4 notebook (`/workspace/colab-jobs/vision-clef/`) runs d1, qwen3-vl-2b and clef-flash on all 640.
-- **2026-10-21 22:27 IST (run order only; no metric used for decisions — lead worker #2 saw only d1-omni's running accuracy in the auto-generated summary.md, which does not affect order):** the full-640 d1-omni run (188 done) was stopped and resumed later in queue A; d1-omni first completes the 10-per-class set, then qwen3-vl-2b runs its controls and 10-per-class set, so all six arms share the same 160 items as early as possible. `score.py` now also writes `results/verdicts.{json,md}` with the pre-registered rules applied to the largest set both compared arms share (n reported per row).
+  arms restricted to the same items (stated in RESULTS). A Colab T4 notebook (`colab/clef-flash-t4.ipynb`) is prepared to re-run d1 (and clef-flash) on all 640; I did not run it.
+- **2026-10-21 22:10 IST (17 d1 items done, still no metric inspected):** d1 measured ~55 s/image, qwen3-vl-2b ~40 s/image under load. To give every arm a matched core set overnight, CPU order is now: d1 and qwen3-vl-2b on **10 per class (160)** first, then 20 per class (320), then the rest. Primary comparisons use the largest set that all compared arms share; that n is stated next to every number. The Colab T4 notebook (`colab/`) is set up to run d1, qwen3-vl-2b and clef-flash on all 640 (not run).
+- **2026-10-21 22:27 IST (run order only; no metric used for decisions — I saw only d1-omni's running accuracy in the auto-generated summary.md, which does not affect order):** the full-640 d1-omni run (188 done) was stopped and resumed later in queue A; d1-omni first completes the 10-per-class set, then qwen3-vl-2b runs its controls and 10-per-class set, so all six arms share the same 160 items as early as possible. `score.py` now also writes `results/verdicts.{json,md}` with the pre-registered rules applied to the largest set both compared arms share (n reported per row).
 - **2026-10-21 23:10 IST (pipeline bug, before any hypothesis was scored):** train/cal labels and DiT outputs were in the official RVL-CDIP class order while test used alphabetical order; fixed by an exact remap (see `issues-found/05-label-order-bug.md`). No prompt, data or arm changed.
 
 ## Final result (reviewed 2026-10-22 03:50 IST)

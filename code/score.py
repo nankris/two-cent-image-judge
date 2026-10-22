@@ -2,7 +2,7 @@
 import sys, json, csv, io
 from pathlib import Path
 import numpy as np
-ROOT = Path(__file__).resolve().parents[1]; sys.path.insert(0, str(ROOT.parent / "_shared")); sys.path.insert(0, str(ROOT / "code"))
+ROOT = Path(__file__).resolve().parents[1]; sys.path.insert(0, str(ROOT / "_shared")); sys.path.insert(0, str(ROOT / "code"))
 from stats import ece, brier, macro_f1, bootstrap, fmt_ci
 from common_io import load_jsonl, PRICES, VM_USD_PER_H, clef_image_tokens, luna_image_tokens
 from labels import KEYS
@@ -134,7 +134,7 @@ if "d1" in summ:
         for j in range(16):
             if C[i, j]: ax.text(j, i, C[i, j], ha="center", va="center", fontsize=6, color="white" if C[i, j] > 20 else "black")
     ax.set_xlabel("predicted"); ax.set_ylabel("true"); ax.set_title("d1-3B confusion (matched core n=160)"); fig.tight_layout(); fig.savefig(FIG / "confusion_d1.png", dpi=150); plt.close(fig)
-# ---------------------------------------------------------------- pre-registered verdicts (added 22:35 IST by lead worker #2;
+# ---------------------------------------------------------------- pre-registered verdicts (added 22:35 IST;
 # rules copied verbatim from README; each comparison uses the largest set of items both arms share, n reported)
 def rule_margin(ci, margin, need_point=None):
     p, lo, hi = ci
